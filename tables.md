@@ -56,4 +56,6 @@ id string
 image String
 name String
 price Int
+available Boolean
+createdAt DateTime 
 

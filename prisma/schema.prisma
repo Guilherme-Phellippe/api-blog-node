@@ -9,36 +9,57 @@ datasource db {
 
 model Recipe {
   id              String   @id @default(uuid())
+  categoryId      String
   userId          String
-  images_recipe   String
-  videos_recipe   String
   name_recipe     String
   describe_recipe String
+  images_recipe   String
+  videos_recipe   String
   time            Int
   portion         Int
   ing             String
   word_key        String
   prepareMode     String
-  nmr_hearts      Int
-  nmr_eyes        Int
-  nmr_saved       Int
-  votes           String
+  nmr_hearts      Int      @default(0)
+  nmr_eyes        Int      @default(0)
+  nmr_saved       Int      @default(0)
+  votes           String   @default("")
+  comments        String   @default("")
   createdAt       DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
 }
 
 model User {
   id             String   @id @default(uuid())
   name           String
-  photo          String
+  photo          String   @default("https://scontent.fpoo1-1.fna.fbcdn.net/v/t1.30497-1/143086968_2856368904622192_1959732218791162458_n.png?_nc_cat=1&ccb=1-7&_nc_sid=7206a8&_nc_ohc=ctuv1-iVcTkAX-gl5Xh&_nc_ht=scontent.fpoo1-1.fna&oh=00_AfCdxkIMoKu5XINgR815CDH3GilGYfLQ3sqeqH4OHDPOKw&oe=642764F8")
   email          String
   login          String
   password       String
-  nmr_hearts     Int
-  nmr_eyes       Int
-  nmr_prizes_won String
+  nmr_hearts     Int      @default(0)
+  nmr_eyes       Int      @default(0)
+  nmr_prizes_won String   @default("")
   createdAt      DateTime @default(now())
 
   recipe Recipe[]
+}
+
+model Category {
+  id            String   @id @default(uuid())
+  name_category String
+  suggestion    String   @default("")
+  createdAt     DateTime @default(now())
+
+  recipe Recipe[]
+}
+
+model Prize {
+  id        String   @id @default(uuid())
+  image     String
+  name      String
+  price     Int
+  available Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
